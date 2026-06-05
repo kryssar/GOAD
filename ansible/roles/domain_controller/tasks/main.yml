@@ -14,9 +14,22 @@
     safe_mode_password: "{{domain_password}}"
   register: check_domain
 
+- name: Ensure WinRM firewall rules apply to all profiles before domain creation reboot
+  ansible.windows.win_powershell:
+    script: |
+      $rules = Get-NetFirewallRule -DisplayGroup 'Windows Remote Management' -ErrorAction SilentlyContinue
+      if ($rules) { $rules | Set-NetFirewallRule -Profile Any -Enabled True }
+      if (-not (Get-NetFirewallRule -Name 'SAGA-WinRM-HTTP-Any' -ErrorAction SilentlyContinue)) {
+          New-NetFirewallRule -Name 'SAGA-WinRM-HTTP-Any' `
+              -DisplayName 'SAGA WinRM HTTP All Profiles' `
+              -Protocol TCP -LocalPort 5985 -Direction Inbound `
+              -Action Allow -Profile Any -Enabled True
+      }
+  when: check_domain.changed
+
 - name: Reboot to complete domain creation
   win_reboot:
-    reboot_timeout: 900
+    reboot_timeout: 1800
     post_reboot_delay: 300
   when: check_domain.changed
 
@@ -29,10 +42,23 @@
     state: domain_controller
   register: check_domain_controller
 
+- name: Ensure WinRM firewall rules apply to all profiles before DC promotion reboot
+  ansible.windows.win_powershell:
+    script: |
+      $rules = Get-NetFirewallRule -DisplayGroup 'Windows Remote Management' -ErrorAction SilentlyContinue
+      if ($rules) { $rules | Set-NetFirewallRule -Profile Any -Enabled True }
+      if (-not (Get-NetFirewallRule -Name 'SAGA-WinRM-HTTP-Any' -ErrorAction SilentlyContinue)) {
+          New-NetFirewallRule -Name 'SAGA-WinRM-HTTP-Any' `
+              -DisplayName 'SAGA WinRM HTTP All Profiles' `
+              -Protocol TCP -LocalPort 5985 -Direction Inbound `
+              -Action Allow -Profile Any -Enabled True
+      }
+  when: check_domain_controller.changed
+
 - name: Reboot to complete domain controller setup
   win_reboot:
-    reboot_timeout: 900
-    post_reboot_delay: 100
+    reboot_timeout: 1800
+    post_reboot_delay: 300
   when: check_domain_controller.changed
 
 # DNSCHANGE
