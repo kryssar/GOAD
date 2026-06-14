@@ -20,10 +20,52 @@
       https: "{{ad_https_proxy}}"
   when: http_proxy == "yes"
 
+- name: "SAGA | Ensure PSGallery registered and trusted (PSGet 1.0.0.1, air-gapped safe)"
+  win_shell: |
+    $repo = Get-PSRepository -Name PSGallery -ErrorAction SilentlyContinue
+    if ($repo -and $repo.InstallationPolicy -eq 'Trusted') {
+        Write-Output "already-trusted"
+    } else {
+        $xmlPath = "$env:LOCALAPPDATA\Microsoft\Windows\PowerShell\PowerShellGet\PSRepositories.xml"
+        New-Item -Force -ItemType Directory -Path (Split-Path $xmlPath) | Out-Null
+        $entry = [pscustomobject]@{
+            Name                      = 'PSGallery'
+            SourceLocation            = 'https://www.powershellgallery.com/api/v2/'
+            PublishLocation           = 'https://www.powershellgallery.com/api/v2/package/'
+            ScriptSourceLocation      = 'https://www.powershellgallery.com/api/v2/items/psscript/'
+            ScriptPublishLocation     = 'https://www.powershellgallery.com/api/v2/package/'
+            InstallationPolicy        = 'Trusted'
+            PackageManagementProvider = 'NuGet'
+            Trusted                   = $true
+            Registered                = $true
+            ProviderOptions           = @{}
+        }
+        $entry.PSTypeNames.Insert(0, 'Microsoft.PowerShell.Commands.PSRepository')
+        ([ordered]@{ PSGallery = $entry }) | Export-Clixml -Path $xmlPath -Force
+        if ($repo) { Set-PSRepository -Name PSGallery -InstallationPolicy Trusted }
+        Write-Output "fixed"
+    }
+  register: psgallery_result
+  changed_when: "'fixed' in psgallery_result.stdout"
+
+- name: "SAGA | Ensure NuGet provider installed (skip if already present, air-gapped safe)"
+  win_shell: |
+    $provider = Get-PackageProvider -Name NuGet -ListAvailable -ErrorAction SilentlyContinue |
+                Where-Object { $_.Version -ge [Version]'2.8.5.201' } |
+                Select-Object -First 1
+    if ($provider) {
+        Write-Output "already-installed:$($provider.Version)"
+    } else {
+        [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+        Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201 -Force
+        Write-Output "installed"
+    }
+  register: nuget_result
+  changed_when: "'installed' in nuget_result.stdout"
+
 - name: Upgrade module PowerShellGet to fix accept license issue on last windows ansible version
   win_shell: |
     [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
-    Install-PackageProvider -Name NuGet -Force
     Install-Module PowerShellGet -Force
 
 - name: Windows | Check for ComputerManagementDsc Powershell module
