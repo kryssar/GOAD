@@ -10,6 +10,8 @@ ansible/.venv/
 ansible/collections/
 ansible/files/psmodules/ComputerManagementDsc/
 ansible/files/psmodules/xNetworking/
+ansible/files/psmodules/xDnsServer/
+ansible/files/psmodules/ActiveDirectoryDsc/
 ansible/test.yml
 *VBoxHeadless*.log
 .terraform/

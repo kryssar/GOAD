@@ -70,12 +70,14 @@
 
 - name: "SAGA | Check if air-gapped PS modules already installed"
   win_shell: |
-    $cmd = Get-Module -ListAvailable -Name ComputerManagementDsc,xNetworking
-    $names = $cmd | Select-Object -ExpandProperty Name | Sort-Object -Unique
-    if (($names -contains 'ComputerManagementDsc') -and ($names -contains 'xNetworking')) {
+    $required = @('ComputerManagementDsc','xNetworking','xDnsServer','ActiveDirectoryDsc')
+    $found = Get-Module -ListAvailable -Name $required |
+             Select-Object -ExpandProperty Name | Sort-Object -Unique
+    $missing = $required | Where-Object { $found -notcontains $_ }
+    if ($missing.Count -eq 0) {
         Write-Output "present"
     } else {
-        Write-Output "missing:$($names -join ',')"
+        Write-Output "missing:$($missing -join ',')"
     }
   register: psmodules_check
 
