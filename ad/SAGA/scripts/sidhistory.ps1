@@ -1,0 +1,1 @@
+netdom trust galactic.empire /d:rebel.alliance /enablesidhistory:yes
