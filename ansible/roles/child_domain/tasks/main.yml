@@ -119,10 +119,11 @@
     Write-Output "extracted"
   when: "'present' not in dc_psmodules_check.stdout"
 
-- name: Check for xDnsServer Powershell module
-  win_psmodule:
-    name: xDnsServer
-    state: present
+- name: "SAGA | Verify xDnsServer available (air-gapped — no PSGallery)"
+  win_shell: |
+    if (Get-Module -ListAvailable -Name xDnsServer) { "ok" }
+    else { throw "xDnsServer not found in PSModulePath — check psmodules-airgap.zip extraction" }
+  changed_when: false
 
 # add external dns forwarder
 - name: Configure DNS Forwarders
@@ -133,10 +134,11 @@
     IPAddresses:
       - "{{dns_server_forwarder}}"
 
-- name: "Install XactiveDirectory"
-  win_psmodule:
-    name: ActiveDirectoryDSC
-    state: present
+- name: "SAGA | Verify ActiveDirectoryDsc available (air-gapped — no PSGallery)"
+  win_shell: |
+    if (Get-Module -ListAvailable -Name ActiveDirectoryDsc) { "ok" }
+    else { throw "ActiveDirectoryDsc not found in PSModulePath — check psmodules-airgap.zip extraction" }
+  changed_when: false
 
 # issue 156
 - name: enable the Active directory web services if not enabled
