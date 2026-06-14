@@ -68,6 +68,32 @@
     [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
     Install-Module PowerShellGet -Force
 
+- name: "SAGA | Check if air-gapped PS modules already installed"
+  win_shell: |
+    $cmd = Get-Module -ListAvailable -Name ComputerManagementDsc,xNetworking
+    $names = $cmd | Select-Object -ExpandProperty Name | Sort-Object -Unique
+    if (($names -contains 'ComputerManagementDsc') -and ($names -contains 'xNetworking')) {
+        Write-Output "present"
+    } else {
+        Write-Output "missing:$($names -join ',')"
+    }
+  register: psmodules_check
+
+- name: "SAGA | Copy air-gapped PS modules archive (skip if already installed)"
+  win_copy:
+    src: "files/psmodules/psmodules-airgap.zip"
+    dest: "C:\\Windows\\Temp\\psmodules-airgap.zip"
+  when: "'present' not in psmodules_check.stdout"
+
+- name: "SAGA | Extract PS modules to system module path (air-gapped)"
+  win_shell: |
+    $dest = "$env:ProgramFiles\WindowsPowerShell\Modules"
+    Expand-Archive -Path 'C:\Windows\Temp\psmodules-airgap.zip' -DestinationPath $dest -Force
+    Remove-Item 'C:\Windows\Temp\psmodules-airgap.zip' -Force
+    Write-Output "extracted"
+  when: "'present' not in psmodules_check.stdout"
+  register: psmodules_extract
+
 - name: Windows | Check for ComputerManagementDsc Powershell module
   win_psmodule:
     name: ComputerManagementDsc

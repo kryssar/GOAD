@@ -8,6 +8,8 @@ docs/notes.md
 temp/
 ansible/.venv/
 ansible/collections/
+ansible/files/psmodules/ComputerManagementDsc/
+ansible/files/psmodules/xNetworking/
 ansible/test.yml
 *VBoxHeadless*.log
 .terraform/
