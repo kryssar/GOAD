@@ -1,7 +1,7 @@
 $task = '/c powershell New-PSDrive -Name "Public" -PSProvider "FileSystem" -Root "\\Bravos\private"'
 $repeat = (New-TimeSpan -Minutes 2)
 $taskName = "responder_bot"
-$user = "north.sevenkingdoms.local\robb.stark"
+$user = "deathstar.galactic.empire\mission.vao"
 $password = "sexywolfy"
 
 $action = New-ScheduledTaskAction -Execute "cmd.exe" -Argument "$task"

@@ -1,1 +1,1 @@
-netdom trust sevenkingdoms.local /d:essos.local /enablesidhistory:yes
+netdom trust galactic.empire /d:rebel.alliance /enablesidhistory:yes

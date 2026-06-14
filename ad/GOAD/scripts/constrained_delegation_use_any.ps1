@@ -1,3 +1,3 @@
-Set-ADUser -Identity "jon.snow" -ServicePrincipalNames @{Add='CIFS/thewall.north.sevenkingdoms.local'}
-Get-ADUser -Identity "jon.snow" | Set-ADAccountControl -TrustedToAuthForDelegation $true
-Set-ADUser -Identity "jon.snow" -Add @{'msDS-AllowedToDelegateTo'=@('CIFS/winterfell.north.sevenkingdoms.local','CIFS/winterfell')}
+Set-ADUser -Identity "darth.revan" -ServicePrincipalNames @{Add='CIFS/starforge.deathstar.galactic.empire'}
+Get-ADUser -Identity "darth.revan" | Set-ADAccountControl -TrustedToAuthForDelegation $true
+Set-ADUser -Identity "darth.revan" -Add @{'msDS-AllowedToDelegateTo'=@('CIFS/ds-command-dc.deathstar.galactic.empire','CIFS/ds-command-dc')}

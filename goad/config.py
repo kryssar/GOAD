@@ -44,7 +44,7 @@ class Config:
         config.set('azure', 'az_location', 'westeurope')
 
         config.add_section('proxmox')
-        config.set('proxmox', 'pm_api_url', 'https://192.168.1.1:8006/api2/json')
+        config.set('proxmox', 'pm_api_url', 'https://192.168.1.38:8006/api2/json')
         config.set('proxmox', 'pm_user', 'infra_as_code@pve')
         config.set('proxmox', 'pm_node', 'GOAD')
         config.set('proxmox', 'pm_pool', 'GOAD')

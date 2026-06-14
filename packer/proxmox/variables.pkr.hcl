@@ -19,3 +19,4 @@ variable "vm_disk_size" {}
 variable "vm_disk_format" {}
 variable "vm_sockets" {}
 variable "os" {}
+variable "vm_id" { default = 0 }

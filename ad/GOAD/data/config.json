@@ -1,706 +1,932 @@
 {
-"lab" : {
-    "hosts" : {
-        "dc01" : {
-            "hostname" : "kingslanding",
-            "type" : "dc",
-            "local_admin_password": "8dCT-DJjgScp",
-            "domain" : "sevenkingdoms.local",
-            "path" : "DC=sevenkingdoms,DC=local",
-            "local_groups" : {
-                "Administrators" : [
-                    "sevenkingdoms\\robert.baratheon",
-                    "sevenkingdoms\\cersei.lannister",
-                    "sevenkingdoms\\DragonRider"
-                ],
-                "Remote Desktop Users" : [
-                    "sevenkingdoms\\Small Council",
-                    "sevenkingdoms\\Baratheon"
-                ]
-            },
-            "scripts" : ["sidhistory.ps1"],
-            "vulns" : ["disable_firewall", "adcs_esc10_case1", "adcs_esc10_case2"],
-            "security": ["account_is_sensitive"],
-            "security_vars": {
-                "account_is_sensitive" : { "renly": {"account" : "renly.baratheon"} }
-            }
-        },
-        "dc02" : {
-            "hostname" : "winterfell",
-            "type" : "dc",
-            "local_admin_password": "NgtI75cKV+Pu",
-            "domain" : "north.sevenkingdoms.local",
-            "path" : "DC=north,DC=sevenkingdoms,DC=local",
-            "local_groups" : {
-                "Administrators" : [
-                    "north\\eddard.stark",
-                    "north\\catelyn.stark",
-                    "north\\robb.stark"
-                ],
-                "Remote Desktop Users" : [
-                    "north\\Stark"
-                ]
-            },
-            "scripts" : [
-                "asrep_roasting.ps1",
-                "constrained_delegation_use_any.ps1",
-                "constrained_delegation_kerb_only.ps1",
-                "ntlm_relay.ps1",
-                "responder.ps1",
-                "gpo_abuse.ps1",
-                "rdp_scheduler.ps1"
-            ],
-            "vulns" : ["disable_firewall","directory", "credentials", "autologon", "files", "enable_llmnr", "enable_nbt-ns", "shares"],
-            "vulns_vars" : {
-                "directory": {
-                    "setup": "c:\\setup"
+    "lab": {
+        "hosts": {
+            "dc01": {
+                "hostname": "coruscant-dc",
+                "type": "dc",
+                "local_admin_password": "8dCT-DJjgScp",
+                "domain": "galactic.empire",
+                "path": "DC=galactic,DC=empire",
+                "local_groups": {
+                    "Administrators": [
+                        "galactic\\darth.vader",
+                        "galactic\\darth.nihilus",
+                        "galactic\\SithLords"
+                    ],
+                    "Remote Desktop Users": [
+                        "galactic\\ImperialSenate",
+                        "galactic\\Empire"
+                    ]
                 },
-                "credentials" : {
-                    "TERMSRV/castelblack": {
-                        "username" : "north\\robb.stark",
-                        "secret"   : "sexywolfy",
-                        "runas"    : "north\\robb.stark",
-                        "runas_password" : "sexywolfy"
+                "scripts": [
+                    "sidhistory.ps1"
+                ],
+                "vulns": [
+                    "disable_firewall",
+                    "adcs_esc10_case1",
+                    "adcs_esc10_case2"
+                ],
+                "security": [
+                    "account_is_sensitive"
+                ],
+                "security_vars": {
+                    "account_is_sensitive": {
+                        "renly": {
+                            "account": "hk-47"
+                        }
+                    }
+                }
+            },
+            "dc02": {
+                "hostname": "ds-command-dc",
+                "type": "dc",
+                "local_admin_password": "NgtI75cKV+Pu",
+                "domain": "deathstar.galactic.empire",
+                "path": "DC=deathstar,DC=galactic,DC=empire",
+                "local_groups": {
+                    "Administrators": [
+                        "deathstar\\carth.onasi",
+                        "deathstar\\jolee.bindo",
+                        "deathstar\\mission.vao"
+                    ],
+                    "Remote Desktop Users": [
+                        "deathstar\\Republic"
+                    ]
+                },
+                "scripts": [
+                    "asrep_roasting.ps1",
+                    "constrained_delegation_use_any.ps1",
+                    "constrained_delegation_kerb_only.ps1",
+                    "ntlm_relay.ps1",
+                    "responder.ps1",
+                    "gpo_abuse.ps1",
+                    "rdp_scheduler.ps1"
+                ],
+                "vulns": [
+                    "disable_firewall",
+                    "directory",
+                    "credentials",
+                    "autologon",
+                    "files",
+                    "enable_llmnr",
+                    "enable_nbt-ns",
+                    "shares"
+                ],
+                "vulns_vars": {
+                    "directory": {
+                        "setup": "c:\\setup"
+                    },
+                    "credentials": {
+                        "TERMSRV/ds-weapons-srv": {
+                            "username": "deathstar\\mission.vao",
+                            "secret": "kotor123",
+                            "runas": "deathstar\\mission.vao",
+                            "runas_password": "kotor123"
+                        }
+                    },
+                    "autologon": {
+                        "mission.vao": {
+                            "username": "deathstar\\mission.vao",
+                            "password": "kotor123"
+                        }
+                    },
+                    "files": {
+                        "rdp": {
+                            "src": "dc02/bot_rdp.ps1",
+                            "dest": "c:\\setup\\bot_rdp.ps1"
+                        },
+                        "sysvol_fake_script": {
+                            "src": "dc02/sysvol_scripts/script.ps1",
+                            "dest": "C:\\Windows\\SYSVOL\\domain\\scripts\\script.ps1"
+                        },
+                        "sysvol_secret": {
+                            "src": "dc02/sysvol_scripts/secret.ps1",
+                            "dest": "C:\\Windows\\SYSVOL\\domain\\scripts\\secret.ps1"
+                        }
+                    }
+                }
+            },
+            "dc03": {
+                "hostname": "alderaan-dc",
+                "type": "dc",
+                "local_admin_password": "Ufe-bVXSx9rk",
+                "domain": "rebel.alliance",
+                "path": "DC=rebel,DC=alliance",
+                "local_groups": {
+                    "Administrators": [
+                        "rebel\\leia.organa",
+                        "rebel\\senators"
+                    ],
+                    "Remote Desktop Users": [
+                        "rebel\\Alliance"
+                    ]
+                },
+                "scripts": [
+                    "asrep_roasting2.ps1"
+                ],
+                "vulns": [
+                    "ntlmdowngrade",
+                    "disable_firewall",
+                    "adcs_esc7",
+                    "adcs_esc13",
+                    "adcs_esc15"
+                ],
+                "vulns_vars": {
+                    "adcs_esc7": {
+                        "viserys": {
+                            "ca_manager": "rebel\\luke.skywalker"
+                        }
+                    },
+                    "adcs_esc13": {
+                        "esc13": {
+                            "adcs_esc13_group": "senators",
+                            "adcs_esc13_template": "ESC13"
+                        }
+                    }
+                }
+            },
+            "srv02": {
+                "hostname": "ds-weapons-srv",
+                "type": "server",
+                "local_admin_password": "NgtI75cKV+Pu",
+                "domain": "deathstar.galactic.empire",
+                "path": "DC=deathstar,DC=galactic,DC=empire",
+                "use_laps": false,
+                "local_groups": {
+                    "Administrators": [
+                        "deathstar\\darth.nihilus"
+                    ],
+                    "Remote Desktop Users": [
+                        "deathstar\\SithOrder",
+                        "deathstar\\SithAcolytes",
+                        "deathstar\\Republic"
+                    ]
+                },
+                "scripts": [],
+                "vulns": [
+                    "directory",
+                    "disable_firewall",
+                    "openshares",
+                    "files",
+                    "permissions"
+                ],
+                "vulns_vars": {
+                    "directory": {
+                        "shares": "C:\\shares",
+                        "all": "C:\\shares\\all"
+                    },
+                    "files": {
+                        "website": {
+                            "src": "srv02/wwwroot",
+                            "dest": "C:\\inetpub\\"
+                        },
+                        "letter_in_shares": {
+                            "src": "srv02/all/bastila.txt",
+                            "dest": "C:\\shares\\all\\bastila.txt"
+                        }
+                    },
+                    "permissions": {
+                        "IIS_IUSRS_upload": {
+                            "path": "C:\\inetpub\\wwwroot\\upload",
+                            "user": "IIS_IUSRS",
+                            "rights": "FullControl"
+                        }
+                    },
+                    "shares": {
+                        "starforge": {
+                            "path": "C:\\starforge",
+                            "list": "yes",
+                            "full": "DEATHSTAR\\Republic",
+                            "change": "DEATHSTAR\\darth.revan,DEATHSTAR\\darth.malak",
+                            "read": "Users"
+                        }
                     }
                 },
-                "autologon" : {
-                    "robb.stark" : {
-                        "username" : "north\\robb.stark",
-                        "password" : "sexywolfy"
+                "mssql": {
+                    "sa_password": "Sup1_sa_P@ssw0rd!",
+                    "svcaccount": "sql_svc",
+                    "sysadmins": [
+                        "DEATHSTAR\\darth.revan"
+                    ],
+                    "executeaslogin": {
+                        "DEATHSTAR\\darth.malak": "sa",
+                        "DEATHSTAR\\zaalbar": "DEATHSTAR\\darth.revan"
+                    },
+                    "executeasuser": {
+                        "bastila_master_dbo": {
+                            "user": "DEATHSTAR\\bastila.shan",
+                            "db": "master",
+                            "impersonate": "dbo"
+                        },
+                        "bastila_msdb_dbo": {
+                            "user": "DEATHSTAR\\bastila.shan",
+                            "db": "msdb",
+                            "impersonate": "dbo"
+                        }
+                    },
+                    "linked_servers": {
+                        "srv03": {
+                            "data_src": "alderaan-ca-srv.rebel.alliance",
+                            "users_mapping": [
+                                {
+                                    "local_login": "DEATHSTAR\\darth.revan",
+                                    "remote_login": "sa",
+                                    "remote_password": "sa_P@ssw0rd!Ess0s"
+                                }
+                            ]
+                        }
                     }
+                }
+            },
+            "srv03": {
+                "hostname": "alderaan-ca-srv",
+                "type": "server",
+                "local_admin_password": "978i2pF43UJ-",
+                "domain": "rebel.alliance",
+                "path": "DC=rebel,DC=alliance",
+                "use_laps": true,
+                "local_groups": {
+                    "Administrators": [
+                        "rebel\\han.solo"
+                    ]
                 },
-                "files" : {
-                    "rdp" : {
-                        "src" : "dc02/bot_rdp.ps1",
-                        "dest" : "c:\\setup\\bot_rdp.ps1"
+                "Remote Desktop Users": [
+                    "rebel\\Smugglers"
+                ],
+                "scripts": [],
+                "vulns": [
+                    "openshares",
+                    "disable_firewall",
+                    "adcs_esc6",
+                    "adcs_esc11"
+                ],
+                "security": [
+                    "enable_run_as_ppl"
+                ],
+                "mssql": {
+                    "sa_password": "sa_P@ssw0rd!Ess0s",
+                    "svcaccount": "sql_svc",
+                    "sysadmins": [
+                        "REBEL\\han.solo"
+                    ],
+                    "executeaslogin": {
+                        "REBEL\\chewbacca": "sa"
                     },
-                    "sysvol_fake_script": {
-                        "src" : "dc02/sysvol_scripts/script.ps1",
-                        "dest": "C:\\Windows\\SYSVOL\\domain\\scripts\\script.ps1"
-                    },
-                    "sysvol_secret": {
-                        "src" : "dc02/sysvol_scripts/secret.ps1",
-                        "dest": "C:\\Windows\\SYSVOL\\domain\\scripts\\secret.ps1"
+                    "executeasuser": {},
+                    "linked_servers": {
+                        "srv02": {
+                            "data_src": "ds-weapons-srv.deathstar.galactic.empire",
+                            "users_mapping": [
+                                {
+                                    "local_login": "REBEL\\han.solo",
+                                    "remote_login": "sa",
+                                    "remote_password": "Sup1_sa_P@ssw0rd!"
+                                }
+                            ]
+                        }
                     }
                 }
             }
         },
-        "srv02" : {
-            "hostname" : "castelblack",
-            "type" : "server",
-            "local_admin_password": "NgtI75cKV+Pu",
-            "domain" : "north.sevenkingdoms.local",
-            "path" : "DC=north,DC=sevenkingdoms,DC=local",
-            "use_laps": false,
-            "local_groups" : {
-                "Administrators" : [
-                    "north\\jeor.mormont"
+        "domains": {
+            "rebel.alliance": {
+                "dc": "dc03",
+                "domain_password": "Ufe-bVXSx9rk",
+                "netbios_name": "REBEL",
+                "ca_server": "Alderaan-Ca-Srv",
+                "trust": "galactic.empire",
+                "laps_path": "OU=Laps,DC=rebel,DC=alliance",
+                "organisation_units": {},
+                "laps_readers": [
+                    "chewbacca",
+                    "Spies"
                 ],
-                "Remote Desktop Users" : [
-                    "north\\Night Watch",
-                    "north\\Mormont",
-                    "north\\Stark"
-                ]
-            },
-            "scripts" : [],
-            "vulns" : ["directory", "disable_firewall", "openshares", "files", "permissions"],
-            "vulns_vars" : {
-                "directory": {
-                    "shares": "C:\\shares",
-                    "all": "C:\\shares\\all"
-                },
-                "files" : {
-                    "website" : {
-                        "src" : "srv02/wwwroot",
-                        "dest" : "C:\\inetpub\\"
+                "groups": {
+                    "universal": {
+                        "senators": {
+                            "path": "CN=Users,DC=rebel,DC=alliance"
+                        }
                     },
-                    "letter_in_shares": {
-                        "src" : "srv02/all/arya.txt",
-                        "dest": "C:\\shares\\all\\arya.txt"
-                    }
-                },
-                "permissions" : {
-                    "IIS_IUSRS_upload": {
-                        "path" : "C:\\inetpub\\wwwroot\\upload",
-                        "user" : "IIS_IUSRS",
-                        "rights" : "FullControl"
-                    }
-                },
-                "shares" : {
-                    "thewall" : {
-                        "path"   : "C:\\thewall",
-                        "list"   : "yes",
-                        "full"   : "NORTH\\Stark",
-                        "change" : "NORTH\\jon.snow,NORTH\\samwell.tarly",
-                        "read"   : "Users"
-                    }
-                }
-            },
-            "mssql":{
-                "sa_password": "Sup1_sa_P@ssw0rd!",
-                "svcaccount" : "sql_svc",
-                "sysadmins" : [
-                    "NORTH\\jon.snow"
-                ],
-                "executeaslogin" : {
-                    "NORTH\\samwell.tarly" : "sa",
-                    "NORTH\\brandon.stark" :  "NORTH\\jon.snow"
-                },
-                "executeasuser" : {
-                    "arya_master_dbo": {
-                        "user": "NORTH\\arya.stark",
-                        "db"  : "master",
-                        "impersonate" : "dbo"
+                    "global": {
+                        "Alliance": {
+                            "managed_by": "luke.skywalker",
+                            "path": "CN=Users,DC=rebel,DC=alliance"
+                        },
+                        "Smugglers": {
+                            "managed_by": "han.solo",
+                            "path": "CN=Users,DC=rebel,DC=alliance"
+                        },
+                        "Jedi": {
+                            "managed_by": "Administrator",
+                            "path": "CN=Users,DC=rebel,DC=alliance"
+                        },
+                        "AllianceProtector": {
+                            "managed_by": "Administrator",
+                            "path": "CN=Users,DC=rebel,DC=alliance",
+                            "members": [
+                                "REBEL\\Jedi"
+                            ]
+                        },
+                        "Domain Admins": {
+                            "managed_by": "Administrator",
+                            "path": "CN=Users,DC=rebel,DC=alliance",
+                            "members": [
+                                "REBEL\\AllianceProtector"
+                            ]
+                        }
                     },
-                    "arya_dbms_dbo": {
-                        "user": "NORTH\\arya.stark",
-                        "db"  : "msdb",
-                        "impersonate" : "dbo"
+                    "domainlocal": {
+                        "JediFriends": {
+                            "managed_by": "leia.organa",
+                            "path": "CN=Users,DC=rebel,DC=alliance"
+                        },
+                        "Spies": {
+                            "path": "CN=Users,DC=rebel,DC=alliance"
+                        }
                     }
                 },
-                "linked_servers": {
-                    "BRAAVOS" : {
-                        "data_src": "braavos.essos.local",
-                        "users_mapping": [
-                            {"local_login": "NORTH\\jon.snow","remote_login": "sa", "remote_password": "sa_P@ssw0rd!Ess0s"}
+                "multi_domain_groups_member": {
+                    "JediFriends": [
+                        "galactic.empire\\darth.sion",
+                        "rebel.alliance\\leia.organa"
+                    ],
+                    "Spies": [
+                        "galactic.empire\\ImperialSenate"
+                    ]
+                },
+                "gmsa": {
+                    "gmsa_account": {
+                        "gMSA_Name": "gmsaDroid",
+                        "gMSA_FQDN": "gmsaDroid.rebel.alliance",
+                        "gMSA_SPNs": [
+                            "HTTP/alderaan-ca-srv",
+                            "HTTP/alderaan-ca-srv.rebel.alliance"
+                        ],
+                        "gMSA_HostNames": [
+                            "alderaan-ca-srv"
+                        ]
+                    }
+                },
+                "acls": {
+                    "GenericAll_khal_viserys": {
+                        "for": "han.solo",
+                        "to": "luke.skywalker",
+                        "right": "GenericAll",
+                        "inheritance": "None"
+                    },
+                    "GenericAll_spy_jorah": {
+                        "for": "Spies",
+                        "to": "chewbacca",
+                        "right": "GenericAll",
+                        "inheritance": "None"
+                    },
+                    "GenericAll_khal_esc4": {
+                        "for": "han.solo",
+                        "to": "CN=ESC4,CN=Certificate Templates,CN=Public Key Services,CN=Services,CN=Configuration,DC=rebel,DC=alliance",
+                        "right": "GenericAll",
+                        "inheritance": "None"
+                    },
+                    "WriteProperty_petyer_domadmin": {
+                        "for": "luke.skywalker",
+                        "to": "chewbacca",
+                        "right": "WriteProperty",
+                        "inheritance": "All"
+                    },
+                    "GenericWrite_JediFriends_alderaan-ca-srv": {
+                        "for": "JediFriends",
+                        "to": "alderaan-ca-srv$",
+                        "right": "GenericWrite",
+                        "inheritance": "None"
+                    },
+                    "GenericAll_bastila.shan_khal": {
+                        "for": "bastila.shan",
+                        "to": "han.solo",
+                        "right": "GenericAll",
+                        "inheritance": "None"
+                    },
+                    "GenericAll_gmsaDroid_drogo": {
+                        "for": "gmsaDroid$",
+                        "to": "hk-47",
+                        "right": "GenericAll",
+                        "inheritance": "None"
+                    },
+                    "GenericWrite_bastila.shan_viserys": {
+                        "for": "bastila.shan",
+                        "to": "luke.skywalker",
+                        "right": "GenericWrite",
+                        "inheritance": "None"
+                    }
+                },
+                "users": {
+                    "leia.organa": {
+                        "firstname": "Leia",
+                        "surname": "Organa",
+                        "password": "SaveTheGalaxy!",
+                        "city": "-",
+                        "description": "Leia Organa - Rebel Alliance Leader",
+                        "groups": [
+                            "Alliance",
+                            "Domain Admins"
+                        ],
+                        "path": "CN=Users,DC=rebel,DC=alliance"
+                    },
+                    "luke.skywalker": {
+                        "firstname": "Luke",
+                        "surname": "Skywalker",
+                        "password": "GoldCrown",
+                        "city": "-",
+                        "description": "Luke Skywalker - Jedi Knight",
+                        "groups": [
+                            "Alliance"
+                        ],
+                        "path": "CN=Users,DC=rebel,DC=alliance"
+                    },
+                    "han.solo": {
+                        "firstname": "Han",
+                        "surname": "Solo",
+                        "password": "horse",
+                        "city": "-",
+                        "description": "Han Solo - Smuggler Captain",
+                        "groups": [
+                            "Smugglers"
+                        ],
+                        "path": "CN=Users,DC=rebel,DC=alliance"
+                    },
+                    "chewbacca": {
+                        "firstname": "Chewbacca",
+                        "surname": "Kashyyyk",
+                        "password": "H0nnor!",
+                        "city": "-",
+                        "description": "Chewbacca - Wookiee Co-pilot",
+                        "groups": [
+                            "Alliance"
+                        ],
+                        "path": "CN=Users,DC=rebel,DC=alliance"
+                    },
+                    "bastila.shan": {
+                        "firstname": "Bastila",
+                        "surname": "Shan",
+                        "password": "fr3edom",
+                        "city": "-",
+                        "description": "Bastila Shan - Jedi Sentinel",
+                        "groups": [],
+                        "path": "CN=Users,DC=rebel,DC=alliance"
+                    },
+                    "hk-47": {
+                        "firstname": "HK",
+                        "surname": "47",
+                        "password": "Dracarys",
+                        "city": "-",
+                        "description": "HK-47 - Assassin Droid",
+                        "groups": [
+                            "Jedi"
+                        ],
+                        "path": "CN=Users,DC=rebel,DC=alliance"
+                    },
+                    "sql_svc": {
+                        "firstname": "sql",
+                        "surname": "service",
+                        "password": "YouWillNotKerboroast1ngMeeeeee",
+                        "city": "-",
+                        "description": "sql service",
+                        "groups": [],
+                        "path": "CN=Users,DC=rebel,DC=alliance",
+                        "spns": [
+                            "MSSQLSvc/alderaan-ca-srv.rebel.alliance:1433",
+                            "MSSQLSvc/alderaan-ca-srv.rebel.alliance"
                         ]
                     }
                 }
-            }
-        },
-        "dc03" : {
-            "hostname" : "meereen",
-            "type" : "dc",
-            "local_admin_password": "Ufe-bVXSx9rk",
-            "domain" : "essos.local",
-            "path" : "DC=essos,DC=local",
-            "local_groups" : {
-                "Administrators" : [
-                    "essos\\daenerys.targaryen",
-                    "essos\\greatmaster"
-                ],
-                "Remote Desktop Users" : [
-                    "essos\\Targaryen"
-                ]
             },
-            "scripts" : ["asrep_roasting2.ps1"],
-            "vulns" : ["ntlmdowngrade", "disable_firewall",  "adcs_esc7", "adcs_esc13", "adcs_esc15"],
-            "vulns_vars" : {
-                "adcs_esc7": {
-                    "viserys": {
-                        "ca_manager": "essos\\viserys.targaryen"
+            "deathstar.galactic.empire": {
+                "dc": "dc02",
+                "domain_password": "NgtI75cKV+Pu",
+                "netbios_name": "DEATHSTAR",
+                "trust": "",
+                "laps_path": "OU=Laps,DC=deathstar,DC=galactic,DC=empire",
+                "organisation_units": {},
+                "groups": {
+                    "universal": {},
+                    "global": {
+                        "Republic": {
+                            "managed_by": "carth.onasi",
+                            "path": "CN=Users,DC=deathstar,DC=galactic,DC=empire"
+                        },
+                        "SithOrder": {
+                            "managed_by": "darth.nihilus",
+                            "path": "CN=Users,DC=deathstar,DC=galactic,DC=empire"
+                        },
+                        "SithAcolytes": {
+                            "managed_by": "darth.nihilus",
+                            "path": "CN=Users,DC=deathstar,DC=galactic,DC=empire"
+                        }
+                    },
+                    "domainlocal": {
+                        "OuterRim": {
+                            "path": "CN=Users,DC=deathstar,DC=galactic,DC=empire"
+                        }
                     }
                 },
-                "adcs_esc13": {
-                    "esc13" : {
-                        "adcs_esc13_group": "greatmaster",
-                        "adcs_esc13_template": "ESC13"
+                "multi_domain_groups_member": {},
+                "acls": {
+                    "anonymous_rpc": {
+                        "for": "NT AUTHORITY\\ANONYMOUS LOGON",
+                        "to": "DC=deathstar,DC=galactic,DC=empire",
+                        "right": "ReadProperty",
+                        "inheritance": "All"
+                    },
+                    "anonymous_rpc2": {
+                        "for": "NT AUTHORITY\\ANONYMOUS LOGON",
+                        "to": "DC=deathstar,DC=galactic,DC=empire",
+                        "right": "GenericExecute",
+                        "inheritance": "All"
                     }
-                }
-            }
-        },
-        "srv03" : {
-            "hostname" : "braavos",
-            "type" : "server",
-            "local_admin_password": "978i2pF43UJ-",
-            "domain" : "essos.local",
-            "path" : "DC=essos,DC=local",
-            "use_laps": true,
-            "local_groups" : {
-                "Administrators" : [
-                    "essos\\khal.drogo"
-                ]
-            },
-            "Remote Desktop Users" : [
-                "essos\\Dothraki"
-            ],
-            "scripts" : [],
-            "vulns" : ["openshares","disable_firewall", "adcs_esc6", "adcs_esc11"],
-            "security": ["enable_run_as_ppl"],
-            "mssql":{
-                "sa_password": "sa_P@ssw0rd!Ess0s",
-                "svcaccount" : "sql_svc",
-                "sysadmins" : [
-                    "ESSOS\\khal.drogo"
-                ],
-                "executeaslogin" : {
-                    "ESSOS\\jorah.mormont" : "sa"
                 },
-                "executeasuser" : {},
-                "linked_servers": {
-                    "CASTELBLACK" : {
-                        "data_src": "castelblack.north.sevenkingdoms.local",
-                        "users_mapping": [
-                            {"local_login": "ESSOS\\khal.drogo","remote_login": "sa", "remote_password": "Sup1_sa_P@ssw0rd!"}
+                "users": {
+                    "bastila.shan": {
+                        "firstname": "Bastila",
+                        "surname": "Shan",
+                        "password": "Lightsaber",
+                        "city": "Ds-Command-Dc",
+                        "description": "Bastila Shan - Jedi Sentinel",
+                        "groups": [
+                            "Republic"
+                        ],
+                        "path": "CN=Users,DC=deathstar,DC=galactic,DC=empire"
+                    },
+                    "carth.onasi": {
+                        "firstname": "Carth",
+                        "surname": "Onasi",
+                        "password": "FightP3aceAndHonor!",
+                        "city": "Coruscant",
+                        "description": "Carth Onasi - Republic Officer",
+                        "groups": [
+                            "Republic",
+                            "Domain Admins"
+                        ],
+                        "path": "CN=Users,DC=deathstar,DC=galactic,DC=empire"
+                    },
+                    "jolee.bindo": {
+                        "firstname": "Jolee",
+                        "surname": "Bindo",
+                        "password": "missionjuhanizaalbart3hk",
+                        "city": "Coruscant",
+                        "description": "Jolee Bindo - Gray Jedi",
+                        "groups": [
+                            "Republic"
+                        ],
+                        "path": "CN=Users,DC=deathstar,DC=galactic,DC=empire"
+                    },
+                    "mission.vao": {
+                        "firstname": "Mission",
+                        "surname": "Vao",
+                        "password": "kotor123",
+                        "city": "Ds-Command-Dc",
+                        "description": "Mission Vao - Twi'lek Scout",
+                        "groups": [
+                            "Republic"
+                        ],
+                        "path": "CN=Users,DC=deathstar,DC=galactic,DC=empire"
+                    },
+                    "juhani": {
+                        "firstname": "Juhani",
+                        "surname": "Cathar",
+                        "password": "345ertdfg",
+                        "city": "Ds-Command-Dc",
+                        "description": "Juhani - Jedi Guardian",
+                        "groups": [
+                            "Republic"
+                        ],
+                        "path": "CN=Users,DC=deathstar,DC=galactic,DC=empire",
+                        "spns": [
+                            "HTTP/eyrie.deathstar.galactic.empire"
+                        ]
+                    },
+                    "zaalbar": {
+                        "firstname": "Zaalbar",
+                        "surname": "Kashyyyk",
+                        "password": "iseedeadpeople",
+                        "city": "Ds-Command-Dc",
+                        "description": "Zaalbar - Wookiee Warrior",
+                        "groups": [
+                            "Republic"
+                        ],
+                        "path": "CN=Users,DC=deathstar,DC=galactic,DC=empire"
+                    },
+                    "t3-m4": {
+                        "firstname": "T3",
+                        "surname": "M4",
+                        "password": "Winter2022",
+                        "city": "Ds-Command-Dc",
+                        "description": "T3-M4 - Utility Droid",
+                        "groups": [
+                            "Republic"
+                        ],
+                        "path": "CN=Users,DC=deathstar,DC=galactic,DC=empire"
+                    },
+                    "hk-47": {
+                        "firstname": "HK",
+                        "surname": "47",
+                        "password": "hk-47",
+                        "city": "Ds-Command-Dc",
+                        "description": "HK-47 - Assassin Droid",
+                        "groups": [
+                            "Republic"
+                        ],
+                        "path": "CN=Users,DC=deathstar,DC=galactic,DC=empire"
+                    },
+                    "darth.revan": {
+                        "firstname": "Darth",
+                        "surname": "Revan",
+                        "password": "revanrules",
+                        "city": "Star Forge",
+                        "description": "Darth Revan - Prodigal Knight",
+                        "groups": [
+                            "Republic",
+                            "SithOrder"
+                        ],
+                        "path": "CN=Users,DC=deathstar,DC=galactic,DC=empire",
+                        "spns": [
+                            "HTTP/starforge.deathstar.galactic.empire"
+                        ]
+                    },
+                    "darth.malak": {
+                        "firstname": "Darth",
+                        "surname": "Malak",
+                        "password": "malakrules",
+                        "city": "Star Forge",
+                        "description": "Darth Malak - Sith Lord (Password: malakrules)",
+                        "groups": [
+                            "SithOrder"
+                        ],
+                        "path": "CN=Users,DC=deathstar,DC=galactic,DC=empire"
+                    },
+                    "darth.nihilus": {
+                        "firstname": "Darth",
+                        "surname": "Nihilus",
+                        "password": "_S1thBl@de_",
+                        "city": "Star Forge",
+                        "description": "Darth Nihilus - Lord of Hunger",
+                        "groups": [
+                            "SithOrder",
+                            "SithAcolytes"
+                        ],
+                        "path": "CN=Users,DC=deathstar,DC=galactic,DC=empire"
+                    },
+                    "sql_svc": {
+                        "firstname": "sql",
+                        "surname": "service",
+                        "password": "YouWillNotKerboroast1ngMeeeeee",
+                        "city": "-",
+                        "description": "sql service",
+                        "groups": [],
+                        "path": "CN=Users,DC=deathstar,DC=galactic,DC=empire",
+                        "spns": [
+                            "MSSQLSvc/ds-weapons-srv.deathstar.galactic.empire:1433",
+                            "MSSQLSvc/ds-weapons-srv.deathstar.galactic.empire"
                         ]
                     }
                 }
-            }
-        }
-    },
-    "domains" : {
-        "essos.local" : {
-            "dc": "dc03",
-            "domain_password" : "Ufe-bVXSx9rk",
-            "netbios_name": "ESSOS",
-            "ca_server": "Braavos",
-            "trust" : "sevenkingdoms.local",
-            "laps_path": "OU=Laps,DC=essos,DC=local",
-            "organisation_units" : {
             },
-            "laps_readers": [
-                "jorah.mormont",
-                "Spys"
-            ],
-            "groups" : {
-                "universal" : {
-                    "greatmaster" : {
-                        "path" : "CN=Users,DC=essos,DC=local"
+            "galactic.empire": {
+                "dc": "dc01",
+                "domain_password": "8dCT-DJjgScp",
+                "netbios_name": "GALACTIC",
+                "trust": "rebel.alliance",
+                "laps_path": "OU=Laps,DC=galactic,DC=empire",
+                "organisation_units": {
+                    "CoreWorlds": {
+                        "path": "DC=galactic,DC=empire"
+                    },
+                    "OuterRim": {
+                        "path": "DC=galactic,DC=empire"
+                    },
+                    "MidRim": {
+                        "path": "DC=galactic,DC=empire"
+                    },
+                    "DeepCore": {
+                        "path": "DC=galactic,DC=empire"
+                    },
+                    "ExpansionRegion": {
+                        "path": "DC=galactic,DC=empire"
+                    },
+                    "InnerRim": {
+                        "path": "DC=galactic,DC=empire"
+                    },
+                    "Colonies": {
+                        "path": "DC=galactic,DC=empire"
+                    },
+                    "WildSpace": {
+                        "path": "DC=galactic,DC=empire"
                     }
                 },
-                "global" : {
-                    "Targaryen" : {
-                        "managed_by" : "viserys.targaryen",
-                        "path" : "CN=Users,DC=essos,DC=local"
+                "groups": {
+                    "universal": {},
+                    "global": {
+                        "Sith": {
+                            "managed_by": "darth.revan",
+                            "path": "OU=InnerRim,DC=galactic,DC=empire"
+                        },
+                        "Empire": {
+                            "managed_by": "darth.vader",
+                            "path": "OU=ExpansionRegion,DC=galactic,DC=empire"
+                        },
+                        "ImperialSenate": {
+                            "path": "OU=DeepCore,DC=galactic,DC=empire"
+                        },
+                        "SithTemple": {
+                            "path": "OU=DeepCore,DC=galactic,DC=empire"
+                        },
+                        "ImperialGuard": {
+                            "path": "OU=DeepCore,DC=galactic,DC=empire"
+                        },
+                        "SithLords": {
+                            "path": "OU=DeepCore,DC=galactic,DC=empire"
+                        }
                     },
-                    "Dothraki" : {
-                        "managed_by" : "khal.drogo",
-                        "path" : "CN=Users,DC=essos,DC=local"
-                    },
-                    "Dragons":{
-                        "managed_by" : "Administrator",
-                        "path" : "CN=Users,DC=essos,DC=local"
-                    },
-                    "QueenProtector":{
-                        "managed_by" : "Administrator",
-                        "path" : "CN=Users,DC=essos,DC=local",
-                        "members" : ["ESSOS\\Dragons"]
-                    },
-                    "Domain Admins":{
-                        "managed_by" : "Administrator",
-                        "path" : "CN=Users,DC=essos,DC=local",
-                        "members" : ["ESSOS\\QueenProtector"]
+                    "domainlocal": {
+                        "OuterRim": {
+                            "path": "CN=Users,DC=galactic,DC=empire"
+                        }
                     }
                 },
-                "domainlocal" : {
-                    "DragonsFriends" : {
-                        "managed_by" : "daenerys.targaryen",
-                        "path" : "CN=Users,DC=essos,DC=local"
+                "multi_domain_groups_member": {
+                    "OuterRim": [
+                        "rebel.alliance\\leia.organa"
+                    ]
+                },
+                "acls": {
+                    "forcechangepassword_tywin_jaime": {
+                        "for": "darth.revan",
+                        "to": "darth.malak",
+                        "right": "Ext-User-Force-Change-Password",
+                        "inheritance": "None"
                     },
-                    "Spys" : {
-                        "path" : "CN=Users,DC=essos,DC=local"
-                    }
-                }
-            },
-            "multi_domain_groups_member" : {
-                "DragonsFriends" : [
-                    "sevenkingdoms.local\\tyron.lannister",
-                    "essos.local\\daenerys.targaryen"
-                ],
-                "Spys" : [
-                    "sevenkingdoms.local\\Small Council"
-                ]
-            },
-            "gmsa" : {
-                "gmsa_account": {
-                    "gMSA_Name" : "gmsaDragon",
-                    "gMSA_FQDN" : "gmsaDragon.essos.local",
-                    "gMSA_SPNs" : ["HTTP/braavos", "HTTP/braavos.essos.local"],
-                    "gMSA_HostNames" : ["braavos"]
-                }
-            },
-            "acls" : {
-                "GenericAll_khal_viserys" : {"for": "khal.drogo", "to": "viserys.targaryen", "right": "GenericAll", "inheritance": "None"},
-                "GenericAll_spy_jorah" : {"for": "Spys", "to": "jorah.mormont", "right": "GenericAll", "inheritance": "None"},
-                "GenericAll_khal_esc4" : {"for": "khal.drogo", "to": "CN=ESC4,CN=Certificate Templates,CN=Public Key Services,CN=Services,CN=Configuration,DC=essos,DC=local", "right": "GenericAll", "inheritance": "None"},
-                "WriteProperty_petyer_domadmin" : {"for": "viserys.targaryen", "to": "jorah.mormont", "right": "WriteProperty", "inheritance": "All"},
-                "GenericWrite_DragonsFriends_braavos" : {"for": "DragonsFriends", "to": "braavos$", "right": "GenericWrite", "inheritance": "None"},
-                "GenericAll_missandei_khal" : {"for": "missandei", "to": "khal.drogo", "right": "GenericAll", "inheritance": "None"},
-                "GenericAll_gmsaDragon_drogo" : {"for": "gmsaDragon$", "to": "drogon", "right": "GenericAll", "inheritance": "None"},
-                "GenericWrite_missandei_viserys" : {"for": "missandei", "to": "viserys.targaryen", "right": "GenericWrite", "inheritance": "None"}
-            },
-            "users" : {
-                "daenerys.targaryen" : {
-                    "firstname"   : "daenerys",
-                    "surname"     : "targaryen",
-                    "password"    : "BurnThemAll!", 
-                    "city"        : "-",
-                    "description" : "Darnerys Targaryen",
-                    "groups"      : ["Targaryen", "Domain Admins"],
-                    "path"        : "CN=Users,DC=essos,DC=local"
-                },
-                "viserys.targaryen" : {
-                    "firstname"   : "viserys",
-                    "surname"     : "targaryen",
-                    "password"    : "GoldCrown",
-                    "city"        : "-",
-                    "description" : "Viserys Targaryen",
-                    "groups"      : ["Targaryen"],
-                    "path"        : "CN=Users,DC=essos,DC=local"
-                },
-                "khal.drogo" : {
-                    "firstname"   : "khal",
-                    "surname"     : "drogo",
-                    "password"    : "horse",
-                    "city"        : "-",
-                    "description" : "Khal Drogo",
-                    "groups"      : ["Dothraki"],
-                    "path"        : "CN=Users,DC=essos,DC=local"
-                },
-                "jorah.mormont" : {
-                    "firstname"   : "jorah",
-                    "surname"     : "mormont",
-                    "password"    : "H0nnor!",
-                    "city"        : "-",
-                    "description" : "Jorah Mormont",
-                    "groups"      : ["Targaryen"],
-                    "path"        : "CN=Users,DC=essos,DC=local"
-                },
-                "missandei" : {
-                    "firstname"   : "missandei",
-                    "surname"     : "-",
-                    "password"    : "fr3edom",
-                    "city"        : "-",
-                    "description" : "missandei",
-                    "groups"      : [],
-                    "path"        : "CN=Users,DC=essos,DC=local"
-                },
-                "drogon" : {
-                    "firstname"   : "drogon",
-                    "surname"     : "-",
-                    "password"    : "Dracarys",
-                    "city"        : "-",
-                    "description" : "drogon",
-                    "groups"      : ["Dragons"],
-                    "path"        : "CN=Users,DC=essos,DC=local"
-                },
-                "sql_svc" : {
-                    "firstname"   : "sql",
-                    "surname"     : "service",
-                    "password"    : "YouWillNotKerboroast1ngMeeeeee",
-                    "city"        : "-",
-                    "description" : "sql service",
-                    "groups"      : [],
-                    "path"        : "CN=Users,DC=essos,DC=local",
-                    "spns"        : ["MSSQLSvc/braavos.essos.local:1433","MSSQLSvc/braavos.essos.local"]
-                }
-            }
-        },
-        "north.sevenkingdoms.local" : {
-            "dc": "dc02",
-            "domain_password" : "NgtI75cKV+Pu",
-            "netbios_name": "NORTH",
-            "trust" : "",
-            "laps_path": "OU=Laps,DC=north,DC=sevenkingdoms,DC=local",
-            "organisation_units" : {
-            },
-            "groups" : {
-                "universal" : {},
-                "global" : {
-                    "Stark" : {
-                        "managed_by" : "eddard.stark",
-                        "path" : "CN=Users,DC=North,DC=sevenkingdoms,DC=local"
+                    "GenericWrite_on_user_jaimie_joffrey": {
+                        "for": "darth.malak",
+                        "to": "darth.sion",
+                        "right": "GenericWrite",
+                        "inheritance": "None"
                     },
-                    "Night Watch" : {
-                        "managed_by" : "jeor.mormont",
-                        "path" : "CN=Users,DC=North,DC=sevenkingdoms,DC=local"
+                    "Writedacl_joffrey_tyron": {
+                        "for": "darth.sion",
+                        "to": "darth.sion",
+                        "right": "WriteDacl",
+                        "inheritance": "None"
                     },
-                    "Mormont" : {
-                        "managed_by" : "jeor.mormont",
-                        "path" : "CN=Users,DC=North,DC=sevenkingdoms,DC=local"
+                    "self-self-membership-on-group_tyron_small_council": {
+                        "for": "darth.sion",
+                        "to": "ImperialSenate",
+                        "right": "Ext-Self-Self-Membership",
+                        "inheritance": "None"
+                    },
+                    "addmember_smallcouncil_SithTemple": {
+                        "for": "ImperialSenate",
+                        "to": "SithTemple",
+                        "right": "Ext-Write-Self-Membership",
+                        "inheritance": "All"
+                    },
+                    "write_owner_sithtemple_imperialguard": {
+                        "for": "SithTemple",
+                        "to": "ImperialGuard",
+                        "right": "WriteOwner",
+                        "inheritance": "None"
+                    },
+                    "GenericAll_imperialguard_stanis": {
+                        "for": "ImperialGuard",
+                        "to": "t3-m4",
+                        "right": "GenericAll",
+                        "inheritance": "None"
+                    },
+                    "GenericAll_stanis_dc": {
+                        "for": "t3-m4",
+                        "to": "coruscant-dc$",
+                        "right": "GenericAll",
+                        "inheritance": "None"
+                    },
+                    "GenericAll_group_acrrosdom_dc": {
+                        "for": "OuterRim",
+                        "to": "coruscant-dc$",
+                        "right": "GenericAll",
+                        "inheritance": "None"
+                    },
+                    "GenericAll_varys_domadmin": {
+                        "for": "darth.sion",
+                        "to": "Domain Admins",
+                        "right": "GenericAll",
+                        "inheritance": "None"
+                    },
+                    "GenericAll_varys_domadmin_holder": {
+                        "for": "darth.sion",
+                        "to": "CN=AdminSDHolder,CN=System,DC=galactic,DC=empire",
+                        "right": "GenericAll",
+                        "inheritance": "None"
+                    },
+                    "WriteDACL_renly_DeepCore": {
+                        "for": "hk-47",
+                        "to": "OU=DeepCore,DC=galactic,DC=empire",
+                        "right": "WriteDacl",
+                        "inheritance": "None"
                     }
                 },
-                "domainlocal" : {
-                    "AcrossTheSea" : {
-                        "path" : "CN=Users,DC=North,DC=sevenkingdoms,DC=local"
+                "users": {
+                    "darth.revan": {
+                        "firstname": "Darth",
+                        "surname": "Revan",
+                        "password": "powerkingftw135",
+                        "city": "Coruscant",
+                        "description": "Darth Revan - Lord of the Sith",
+                        "groups": [
+                            "Sith"
+                        ],
+                        "path": "OU=DeepCore,DC=galactic,DC=empire"
+                    },
+                    "darth.malak": {
+                        "firstname": "Darth",
+                        "surname": "Malak",
+                        "password": "cersei",
+                        "city": "Coruscant",
+                        "description": "Darth Malak - Sith Apprentice",
+                        "groups": [
+                            "Sith"
+                        ],
+                        "path": "OU=DeepCore,DC=galactic,DC=empire"
+                    },
+                    "darth.nihilus": {
+                        "firstname": "Darth",
+                        "surname": "Nihilus",
+                        "password": "il0vejaime",
+                        "city": "Coruscant",
+                        "description": "Darth Nihilus - Lord of Hunger",
+                        "groups": [
+                            "Sith",
+                            "Empire",
+                            "Domain Admins",
+                            "ImperialSenate"
+                        ],
+                        "path": "OU=DeepCore,DC=galactic,DC=empire"
+                    },
+                    "darth.sion": {
+                        "firstname": "Darth",
+                        "surname": "Sion",
+                        "password": "_W1sper_$",
+                        "city": "Coruscant",
+                        "description": "Darth Sion - Lord of Pain",
+                        "groups": [
+                            "ImperialSenate"
+                        ],
+                        "path": "OU=DeepCore,DC=galactic,DC=empire"
+                    },
+                    "darth.vader": {
+                        "firstname": "Darth",
+                        "surname": "Vader",
+                        "password": "iamthekingoftheworld",
+                        "city": "Coruscant",
+                        "description": "Darth Vader - Supreme Commander",
+                        "groups": [
+                            "Empire",
+                            "Domain Admins",
+                            "ImperialSenate",
+                            "Protected Users"
+                        ],
+                        "path": "OU=DeepCore,DC=galactic,DC=empire"
+                    },
+                    "hk-47": {
+                        "firstname": "HK",
+                        "surname": "47",
+                        "password": "MaesterOfMaesters",
+                        "city": "Coruscant",
+                        "description": "HK-47 - Assassin Droid",
+                        "groups": [
+                            "ImperialSenate"
+                        ],
+                        "path": "OU=DeepCore,DC=galactic,DC=empire"
+                    },
+                    "t3-m4": {
+                        "firstname": "T3",
+                        "surname": "M4",
+                        "password": "Drag0nst0ne",
+                        "city": "Coruscant",
+                        "description": "T3-M4 - Utility Droid",
+                        "groups": [
+                            "Empire",
+                            "ImperialSenate"
+                        ],
+                        "path": "OU=DeepCore,DC=galactic,DC=empire"
+                    },
+                    "darth.traya": {
+                        "firstname": "Darth",
+                        "surname": "Traya",
+                        "password": "@littlefinger@",
+                        "city": "Coruscant",
+                        "description": "Darth Traya - Lord of Betrayal",
+                        "groups": [
+                            "ImperialSenate"
+                        ],
+                        "path": "OU=DeepCore,DC=galactic,DC=empire"
                     }
-                }
-            },
-            "multi_domain_groups_member" : {},
-            "acls" : {
-                "anonymous_rpc" : {"for": "NT AUTHORITY\\ANONYMOUS LOGON", "to": "DC=North,DC=sevenkingdoms,DC=local", "right": "ReadProperty", "inheritance": "All"},
-                "anonymous_rpc2" : {"for": "NT AUTHORITY\\ANONYMOUS LOGON", "to": "DC=North,DC=sevenkingdoms,DC=local", "right": "GenericExecute", "inheritance": "All"}
-            },
-            "users" : {
-                "arya.stark" : {
-                    "firstname"   : "Arya",
-                    "surname"     : "Stark",
-                    "password"    : "Needle",
-                    "city"        : "Winterfell",
-                    "description" : "Arya Stark",
-                    "groups"      : ["Stark"],
-                    "path"        : "CN=Users,DC=North,DC=sevenkingdoms,DC=local"
-                },
-                "eddard.stark" : {
-                    "firstname"   : "Eddard",
-                    "surname"     : "Stark",
-                    "password"    : "FightP3aceAndHonor!",
-                    "city"        : "King's Landing",
-                    "description" : "Eddard Stark",
-                    "groups"      : ["Stark", "Domain Admins"],
-                    "path"        : "CN=Users,DC=North,DC=sevenkingdoms,DC=local"
-                },
-                "catelyn.stark" : {
-                    "firstname"   : "Catelyn",
-                    "surname"     : "Stark",
-                    "password"    : "robbsansabradonaryarickon",
-                    "city"        : "King's Landing",
-                    "description" : "Catelyn Stark",
-                    "groups"      : ["Stark"],
-                    "path"        : "CN=Users,DC=North,DC=sevenkingdoms,DC=local"
-                },
-                "robb.stark" : {
-                    "firstname"   : "Robb",
-                    "surname"     : "Stark",
-                    "password"    : "sexywolfy",
-                    "city"        : "Winterfell",
-                    "description" : "Robb Stark",
-                    "groups"      : ["Stark"],
-                    "path"        : "CN=Users,DC=North,DC=sevenkingdoms,DC=local"
-                },
-                "sansa.stark" : {
-                    "firstname"   : "Sansa",
-                    "surname"     : "Stark",
-                    "password"    : "345ertdfg",
-                    "city"        : "Winterfell",
-                    "description" : "Sansa Stark",
-                    "groups"      : ["Stark"],
-                    "path"        : "CN=Users,DC=North,DC=sevenkingdoms,DC=local",
-                    "spns"        : ["HTTP/eyrie.north.sevenkingdoms.local"]
-                },
-                "brandon.stark" : {
-                    "firstname"   : "Brandon",
-                    "surname"     : "Stark",
-                    "password"    : "iseedeadpeople",
-                    "city"        : "Winterfell",
-                    "description" : "Brandon Stark",
-                    "groups"      : ["Stark"],
-                    "path"        : "CN=Users,DC=North,DC=sevenkingdoms,DC=local"
-                },
-                "rickon.stark" : {
-                    "firstname"   : "Rickon",
-                    "surname"     : "Stark",
-                    "password"    : "Winter2022",
-                    "city"        : "Winterfell",
-                    "description" : "Rickon Stark",
-                    "groups"      : ["Stark"],
-                    "path"        : "CN=Users,DC=North,DC=sevenkingdoms,DC=local"
-                },
-                "hodor" : {
-                    "firstname"   : "hodor",
-                    "surname"     : "hodor",
-                    "password"    : "hodor",
-                    "city"        : "Winterfell",
-                    "description" : "Brainless Giant",
-                    "groups"      : ["Stark"],
-                    "path"        : "CN=Users,DC=North,DC=sevenkingdoms,DC=local"
-                },
-                "jon.snow" : {
-                    "firstname"   : "Jon",
-                    "surname"     : "Snow",
-                    "password"    : "iknownothing",
-                    "city"        : "Castel Black",
-                    "description" : "Jon Snow",
-                    "groups"      : ["Stark", "Night Watch"],
-                    "path"        : "CN=Users,DC=North,DC=sevenkingdoms,DC=local",
-                    "spns"        : ["HTTP/thewall.north.sevenkingdoms.local"]
-                },
-                "samwell.tarly" : {
-                    "firstname"   : "Samwell",
-                    "surname"     : "Tarly",
-                    "password"    : "Heartsbane",
-                    "city"        : "Castel Black",
-                    "description" : "Samwell Tarly (Password : Heartsbane)",
-                    "groups"      : ["Night Watch"],
-                    "path"        : "CN=Users,DC=North,DC=sevenkingdoms,DC=local"
-                },
-                "jeor.mormont" : {
-                    "firstname"   : "Jeor",
-                    "surname"     : "Mormont",
-                    "password"    : "_L0ngCl@w_",
-                    "city"        : "Castel Black",
-                    "description" : "Jeor Mormont",
-                    "groups"      : ["Night Watch", "Mormont"],
-                    "path"        : "CN=Users,DC=North,DC=sevenkingdoms,DC=local"
-                },
-                "sql_svc" : {
-                    "firstname"   : "sql",
-                    "surname"     : "service",
-                    "password"    : "YouWillNotKerboroast1ngMeeeeee",
-                    "city"        : "-",
-                    "description" : "sql service",
-                    "groups"      : [],
-                    "path"        : "CN=Users,DC=North,DC=sevenkingdoms,DC=local",
-                    "spns"        : ["MSSQLSvc/castelblack.north.sevenkingdoms.local:1433","MSSQLSvc/castelblack.north.sevenkingdoms.local"]
-                }
-            }
-        },
-        "sevenkingdoms.local" : {
-            "dc": "dc01",
-            "domain_password" : "8dCT-DJjgScp",
-            "netbios_name": "SEVENKINGDOMS",
-            "trust" : "essos.local",
-            "laps_path": "OU=Laps,DC=sevenkingdoms,DC=local",
-            "organisation_units" : {
-                "Vale"        : { "path" : "DC=sevenkingdoms,DC=local"},
-                "IronIslands" : { "path" : "DC=sevenkingdoms,DC=local"},
-                "Riverlands"  : { "path" : "DC=sevenkingdoms,DC=local"},
-                "Crownlands"  : { "path" : "DC=sevenkingdoms,DC=local"},
-                "Stormlands"  : { "path" : "DC=sevenkingdoms,DC=local"},
-                "Westerlands" : { "path" : "DC=sevenkingdoms,DC=local"},
-                "Reach"       : { "path" : "DC=sevenkingdoms,DC=local"},
-                "Dorne"       : { "path" : "DC=sevenkingdoms,DC=local"}
-            },
-            "groups" : {
-                "universal" : {},
-                "global" : {
-                    "Lannister" : {
-                        "managed_by" : "tywin.lannister",
-                        "path" : "OU=Westerlands,DC=sevenkingdoms,DC=local"
-                    },
-                    "Baratheon" : {
-                        "managed_by" : "robert.baratheon",
-                        "path" : "OU=Stormlands,DC=sevenkingdoms,DC=local"
-                    },
-                    "Small Council" : {
-                        "path" : "OU=Crownlands,DC=sevenkingdoms,DC=local"
-                    },
-                    "DragonStone" : {
-                        "path" : "OU=Crownlands,DC=sevenkingdoms,DC=local"
-                    },
-                    "KingsGuard" : {
-                        "path" : "OU=Crownlands,DC=sevenkingdoms,DC=local"
-                    },
-                    "DragonRider" : {
-                        "path" : "OU=Crownlands,DC=sevenkingdoms,DC=local"
-                    }
-                },
-                "domainlocal" : {
-                    "AcrossTheNarrowSea" : {
-                        "path" : "CN=Users,DC=sevenkingdoms,DC=local"
-                    }
-                }
-            },
-            "multi_domain_groups_member" : {
-                "AcrossTheNarrowSea" : [
-                    "essos.local\\daenerys.targaryen"
-                ]
-            },
-            "acls" : {
-                "forcechangepassword_tywin_jaime" : {"for": "tywin.lannister", "to": "jaime.lannister", "right": "Ext-User-Force-Change-Password", "inheritance": "None"},
-                "GenericWrite_on_user_jaimie_joffrey" : {"for": "jaime.lannister", "to": "joffrey.baratheon", "right": "GenericWrite", "inheritance": "None"},
-                "Writedacl_joffrey_tyron" : {"for": "joffrey.baratheon", "to": "tyron.lannister", "right": "WriteDacl", "inheritance": "None"},
-                "self-self-membership-on-group_tyron_small_council" : {"for": "tyron.lannister", "to": "Small Council", "right": "Ext-Self-Self-Membership", "inheritance": "None"},
-                "addmember_smallcouncil_DragonStone" : {"for": "Small Council", "to": "DragonStone", "right": "Ext-Write-Self-Membership", "inheritance": "All"},
-                "write_owner_dragonstone_kingsguard" : {"for": "DragonStone", "to": "KingsGuard", "right": "WriteOwner", "inheritance": "None"},
-                "GenericAll_kingsguard_stanis" : {"for": "KingsGuard", "to": "stannis.baratheon", "right": "GenericAll", "inheritance": "None"},
-                "GenericAll_stanis_dc" : {"for": "stannis.baratheon", "to": "kingslanding$", "right": "GenericAll", "inheritance": "None"},
-                "GenericAll_group_acrrosdom_dc" : {"for": "AcrossTheNarrowSea", "to": "kingslanding$", "right": "GenericAll", "inheritance": "None"},
-                "GenericAll_varys_domadmin" : {"for": "lord.varys", "to": "Domain Admins", "right": "GenericAll", "inheritance": "None"},
-                "GenericAll_varys_domadmin_holder" : {"for": "lord.varys", "to": "CN=AdminSDHolder,CN=System,DC=sevenkingdoms,DC=local", "right": "GenericAll", "inheritance": "None"},
-                "WriteDACL_renly_Crownlands" : {"for": "renly.baratheon", "to": "OU=Crownlands,DC=sevenkingdoms,DC=local", "right": "WriteDacl", "inheritance": "None"}
-            },
-            "users" : {
-                "tywin.lannister" : {
-                    "firstname"   : "Tywin",
-                    "surname"     : "Lanister",
-                    "password"    : "powerkingftw135",
-                    "city"        : "Casterly Rock",
-                    "description" : "Tywin Lanister",
-                    "groups"      : ["Lannister"],
-                    "path"        : "OU=Crownlands,DC=sevenkingdoms,DC=local"
-                },
-                "jaime.lannister" : {
-                    "firstname"   : "Jaime",
-                    "surname"     : "Lanister",
-                    "password"    : "cersei",
-                    "city"        : "King's Landing",
-                    "description" : "Jaime Lanister",
-                    "groups"      : ["Lannister"],
-                    "path"        : "OU=Crownlands,DC=sevenkingdoms,DC=local"
-                },
-                "cersei.lannister" : {
-                    "firstname"   : "Cersei",
-                    "surname"     : "Lanister",
-                    "password"    : "il0vejaime",
-                    "city"        : "King's Landing",
-                    "description" : "Cersei Lanister",
-                    "groups"      : ["Lannister","Baratheon","Domain Admins","Small Council"],
-                    "path"        : "OU=Crownlands,DC=sevenkingdoms,DC=local"
-                },
-                "tyron.lannister" : {
-                    "firstname"   : "Tyron",
-                    "surname"     : "Lanister",
-                    "password"    : "Alc00L&S3x",
-                    "city"        : "King's Landing",
-                    "description" : "Tyron Lanister",
-                    "groups"      : ["Lannister"],
-                    "path"        : "OU=Westerlands,DC=sevenkingdoms,DC=local"
-                },
-                "robert.baratheon" : {
-                    "firstname"   : "Robert",
-                    "surname"     : "Baratheon",
-                    "password"    : "iamthekingoftheworld",
-                    "city"        : "King's Landing",
-                    "description" : "Robert Lanister",
-                    "groups"      : ["Baratheon","Domain Admins","Small Council","Protected Users"],
-                    "path"        : "OU=Crownlands,DC=sevenkingdoms,DC=local"
-                },
-                "joffrey.baratheon" : {
-                    "firstname"   : "Joffrey",
-                    "surname"     : "Baratheon",
-                    "password"    : "1killerlion",
-                    "city"        : "King's Landing",
-                    "description" : "Joffrey Baratheon",
-                    "groups"      : ["Baratheon","Lannister"],
-                    "path"        : "OU=Crownlands,DC=sevenkingdoms,DC=local"
-                },
-                "renly.baratheon" : {
-                    "firstname"   : "Renly",
-                    "surname"     : "Baratheon",
-                    "password"    : "lorastyrell",
-                    "city"        : "King's Landing",
-                    "description" : "Renly Baratheon",
-                    "groups"      : ["Baratheon","Small Council"],
-                    "path"        : "OU=Crownlands,DC=sevenkingdoms,DC=local"
-                },
-                "stannis.baratheon" : {
-                    "firstname"   : "Stannis",
-                    "surname"     : "Baratheon",
-                    "password"    : "Drag0nst0ne",
-                    "city"        : "King's Landing",
-                    "description" : "Stannis Baratheon",
-                    "groups"      : ["Baratheon","Small Council"],
-                    "path"        : "OU=Crownlands,DC=sevenkingdoms,DC=local"
-                },
-                "petyer.baelish" : {
-                    "firstname"   : "Petyer",
-                    "surname"     : "Baelish",
-                    "password"    : "@littlefinger@",
-                    "city"        : "King's Landing",
-                    "description" : "Petyer Baelish",
-                    "groups"      : ["Small Council"],
-                    "path"        : "OU=Crownlands,DC=sevenkingdoms,DC=local"
-                },
-                "lord.varys" : {
-                    "firstname"   : "Lord",
-                    "surname"     : "Varys",
-                    "password"    : "_W1sper_$",
-                    "city"        : "King's Landing",
-                    "description" : "Lord Varys",
-                    "groups"      : ["Small Council"],
-                    "path"        : "OU=Crownlands,DC=sevenkingdoms,DC=local"
-                },
-                "maester.pycelle" : {
-                    "firstname"   : "Maester",
-                    "surname"     : "Pycelle",
-                    "password"    : "MaesterOfMaesters",
-                    "city"        : "King's Landing",
-                    "description" : "Maester Pycelle",
-                    "groups"      : ["Small Council"],
-                    "path"        : "OU=Crownlands,DC=sevenkingdoms,DC=local"
                 }
             }
         }
     }
-}}
+}

@@ -1,6 +1,6 @@
 "dc01" = {
-  name               = "DC01"
-  desc               = "DC01 - windows server 2019 - {{ip_range}}.10"
+  name               = "CORUSCANT-DC"
+  desc               = "CORUSCANT-DC - galactic.empire - WinServer2019 - {{ip_range}}.10"
   cores              = 2
   memory             = 3096
   clone              = "WinServer2019_x64"
@@ -9,8 +9,8 @@
   gateway            = "{{ip_range}}.1"
 }
 "dc02" = {
-  name               = "DC02"
-  desc               = "DC02 - windows server 2019 - {{ip_range}}.11"
+  name               = "DS-COMMAND-DC"
+  desc               = "DS-COMMAND-DC - deathstar.galactic.empire - WinServer2019 - {{ip_range}}.11"
   cores              = 2
   memory             = 3096
   clone              = "WinServer2019_x64"
@@ -19,8 +19,8 @@
   gateway            = "{{ip_range}}.1"
 }
 "dc03" = {
-  name               = "DC03"
-  desc               = "DC03 - windows server 2016 - {{ip_range}}.12"
+  name               = "ALDERAAN-DC"
+  desc               = "ALDERAAN-DC - rebel.alliance - WinServer2016 - {{ip_range}}.12"
   cores              = 2
   memory             = 3096
   clone              = "WinServer2016_x64"
@@ -29,8 +29,8 @@
   gateway            = "{{ip_range}}.1"
 }
 "srv02" = {
-  name               = "SRV02"
-  desc               = "SRV02 - windows server 2019 - {{ip_range}}.22"
+  name               = "DS-WEAPONS-SRV"
+  desc               = "DS-WEAPONS-SRV - deathstar.galactic.empire - WinServer2019 - {{ip_range}}.22"
   cores              = 2
   memory             = 6240
   clone              = "WinServer2019_x64"
@@ -39,8 +39,8 @@
   gateway            = "{{ip_range}}.1"
 }
 "srv03" = {
-  name               = "SRV03"
-  desc               = "SRV03 - windows server 2016 - {{ip_range}}.23"
+  name               = "ALDERAAN-CA-SRV"
+  desc               = "ALDERAAN-CA-SRV - rebel.alliance - WinServer2016 - {{ip_range}}.23"
   cores              = 2
   memory             = 5120
   clone              = "WinServer2016_x64"

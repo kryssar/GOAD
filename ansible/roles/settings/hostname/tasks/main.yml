@@ -5,6 +5,6 @@
 
 - name: Reboot if needed
   win_reboot:
-    reboot_timeout: 600
-    post_reboot_delay: 30
+    reboot_timeout: 1500
+    post_reboot_delay: 300
   when: win_hostname.reboot_required

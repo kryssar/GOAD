@@ -18,16 +18,16 @@ source "proxmox-iso" "windows" {
   }
   additional_iso_files {
     device   = "sata4"
-    iso_file = "local:iso/virtio-win.iso"
+    iso_file = "nas:iso/virtio-win.iso"
     unmount  = true
   }
   additional_iso_files {
     device   = "sata5"
-    iso_file = "local:iso/scripts_withcloudinit.iso"
+    iso_file = "nas:iso/scripts_withcloudinit.iso"
     unmount  = true
   }
   cloud_init              = true
-  cloud_init_storage_pool = "${var.proxmox_iso_storage}"
+  cloud_init_storage_pool = "local-lvm"
   communicator            = "winrm"
   cores                   = "${var.vm_cpu_cores}"
   disks {
@@ -40,11 +40,12 @@ source "proxmox-iso" "windows" {
   iso_file                 = "${var.iso_file}"
   memory                   = "${var.vm_memory}"
   network_adapters {
-    bridge = "vmbr3"
+    bridge = "vmbr0"
     model  = "virtio"
-    vlan_tag = "10"
+    vlan_tag = "20"
   }
   node                 = "${var.proxmox_node}"
+  vm_id                = "${var.vm_id}"
   os                   = "${var.os}"
   password             = "${var.proxmox_password}"
   pool                 = "${var.proxmox_pool}"
@@ -54,11 +55,11 @@ source "proxmox-iso" "windows" {
   template_name        = "${var.vm_name}"
   username             = "${var.proxmox_username}"
   vm_name              = "${var.vm_name}"
-  winrm_insecure       = true
+  winrm_insecure       = false
   winrm_no_proxy       = true
   winrm_password       = "${var.winrm_password}"
-  winrm_timeout        = "120m"
-  winrm_use_ssl        = true
+  winrm_timeout        = "180m"
+  winrm_use_ssl        = false
   winrm_username       = "${var.winrm_username}"
   task_timeout         = "40m"
 }
@@ -76,6 +77,7 @@ build {
     elevated_password = "vagrant"
     elevated_user     = "vagrant"
     pause_before      = "1m0s"
+    valid_exit_codes  = [0, 259, 267014]
     scripts           = ["${path.root}/scripts/sysprep/cloudbase-init-p2.ps1"]
   }
 
