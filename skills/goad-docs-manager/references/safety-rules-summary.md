@@ -7,5 +7,5 @@
 - **No `git add .`** - stage selectively.
 - **No touch** `Primus`, `ekonomi`, or VMIDs < 100.
 - **No credential exposure** - redact and flag secrets.
-- **Evidence path**: `/mnt/nas/goad-docs/evidence/`
-- **Audit path**: `/mnt/nas/goad-docs/evidence/audit/audit.log`
+- **Evidence path**: `/mnt/nas/saga-docs/evidence/`
+- **Audit path**: `/mnt/nas/saga-docs/evidence/audit/audit.log`

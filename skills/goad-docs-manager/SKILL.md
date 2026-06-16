@@ -1,5 +1,5 @@
 ---
-name: goad-docs-manager
+name: saga-docs-manager
 description: Canonical orchestrator for the HACKLAB/GOAD Second Brain. Use when performing bulk documentation updates, auditing lab state, or managing AI-to-AI handoffs in the GOAD homelab environment.
 ---
 
@@ -28,7 +28,7 @@ When auditing or updating the vault:
    - Use **Scribe** (via `15-ai-agents/skills/scribe/scribe.py`) for large prose blocks.
    - Follow the **Frontmatter Convention** (YAML at top of files).
 4. **Approval:** Present a `git diff --stat` and the specific `git add` commands. Wait for user approval.
-5. **Audit:** Append an entry to `/mnt/nas/goad-docs/evidence/audit/audit.log` for any state-modifying action.
+5. **Audit:** Append an entry to `/mnt/nas/saga-docs/evidence/audit/audit.log` for any state-modifying action.
 6. **Cleanup:** Update `17-state/current.yaml` and `NEXT-ACTIONS.md` at the end of the session.
 
 ## Token Optimization Guidelines
